@@ -10,18 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import alexander.paulsell.documentdata.business.Manager;
+import alexander.paulsell.documentdata.api.DocumentController;
 import alexander.paulsell.documentdata.data.DocumentDbClient;
 import alexander.paulsell.documentdata.data.entities.Document;
 import alexander.paulsell.documentdata.data.entities.Section;
 import alexander.paulsell.documentdata.data.entities.Text;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Business {
+public class ApiTests {
 
     @Autowired
-    Manager manager;
+    DocumentController documentController;
 
     @Autowired
     DocumentDbClient documentDbClient;
@@ -47,7 +48,7 @@ public class Business {
     // Read
     @Test
     public void getAll() {
-        assertTrue(manager.getAllDocuments().size() == 3);
+        assertTrue(documentController.getAllDocuments().size() == 3);
     }
 
     @Test
@@ -59,14 +60,15 @@ public class Business {
             new Text("tt 4")};
         Document document = new Document(title, sections);
         documentDbClient.save(document);
-        Document gotDocument = manager.getDocument(title);
+        Document gotDocument = documentController.getDocument(title);
         assertTrue(document.equals(gotDocument));
     }
 
     @Test
     public void getByTitleFail() {
-        assertNull(manager.getDocument("Fake Title"));
+        assertNull(documentController.getDocument("Fake Title"));
     }
+
     // Update
 
     // Delete
