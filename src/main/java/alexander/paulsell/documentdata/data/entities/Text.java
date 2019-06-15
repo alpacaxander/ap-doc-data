@@ -2,20 +2,26 @@ package alexander.paulsell.documentdata.data.entities;
 
 import java.util.Arrays;
 
+import org.springframework.data.annotation.Id;
+
 public class Text extends Section{
-    private final long id;
-    private final byte[] data;
-    public Text(long id, String text) {
-        this.id = id;
+
+    @Id
+    private String id;
+
+    private byte[] data;
+
+    public Text() {}
+
+    public Text(String text) {
         this.data = text.getBytes();
     }
 
     public Text(long id, byte[] data) {
-        this.id = id;
         this.data = data;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -28,5 +34,10 @@ public class Text extends Section{
             return false;
         }
         return Arrays.equals(getData(), ((Text) obj).getData());
+    }
+
+    @Override
+    public String toString() {
+        return id;
     }
 }

@@ -2,25 +2,24 @@ package alexander.paulsell.documentdata.data.entities;
 
 import java.util.ArrayList;
 
+import org.springframework.data.annotation.Id;
+
 public class Document {
 
-    private final long id;
-    private final String title;
+    @Id
+    private String title;
     private Section[] sections;
 
-    public Document(long id, String title) {
-        this.id = id;
+    public Document() {}
+
+    public Document(String title) {
         this.title = title;
+        this.sections = new Section[0];
     }
     
-    public Document(long id, String title, Section[] sections) {
-        this.id = id;
+    public Document(String title, Section[] sections) {
         this.title = title;
         this.sections = sections;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -32,20 +31,19 @@ public class Document {
     }
 
     public boolean equals(Object obj) {
-        if (this.getClass().equals(obj.getClass()) ||
-            getId() != ((Document) obj).getId() ||
-            !getTitle().equals(((Document) obj).getTitle()) ||
-            getSections().length != ((Document) obj).getSections().length) {
-            return false;
-        } 
-        ArrayList<Section> a1 = new ArrayList<Section>();
-        for (Section section: getSections()) { a1.add(section); }
-        ArrayList<Section> a2 = new ArrayList<Section>();
-        for (Section section: ((Document) obj).getSections()) { a2.add(section); }
-        if (!a1.containsAll(a2)) {
-            return false;
+        return getTitle().equals(((Document) obj).getTitle());
+    }
+
+    @Override
+    public String toString() {
+        String sectionString = "";
+        for (Section s: getSections()) {
+            sectionString += s.toString() + ", ";
         }
-        return true;
+
+        return String.format(
+                "Document[title='%s', sections='%s']",
+                title, sectionString);
     }
 
 }
