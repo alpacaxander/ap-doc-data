@@ -9,23 +9,19 @@ public class Text extends Section{
     @Id
     private String id;
 
-    private byte[] data;
+    private String data;
 
     public Text() {}
 
     public Text(String text) {
-        this.data = text.getBytes();
-    }
-
-    public Text(long id, byte[] data) {
-        this.data = data;
+        this.data = text;
     }
 
     public String getId() {
-        return id;
+        return null;
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
     }
 
@@ -33,11 +29,11 @@ public class Text extends Section{
         if (this.getClass().equals(obj.getClass())) {
             return false;
         }
-        return Arrays.equals(getData(), ((Text) obj).getData());
+        return getData().equals(((Text) obj).getData());
     }
 
     @Override
     public String toString() {
-        return id;
+        return new String(data);
     }
 }
