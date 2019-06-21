@@ -35,6 +35,7 @@ public class DocumentdataApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		return;/*
 		System.out.println(new ClassPathResource("static").getFile().toPath());
 		try (Stream<Path> walk = Files.walk(new ClassPathResource("static").getFile().toPath(), 1)) {
 			List<Document> documents = walk.filter(Files::isDirectory).skip(1)
@@ -46,7 +47,7 @@ public class DocumentdataApplication implements CommandLineRunner {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	public static Document pathToDocument(Path path) {
