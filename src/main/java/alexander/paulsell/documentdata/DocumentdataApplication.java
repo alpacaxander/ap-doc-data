@@ -3,6 +3,13 @@ package alexander.paulsell.documentdata;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +19,8 @@ import org.springframework.core.io.ClassPathResource;
 
 import alexander.paulsell.documentdata.data.DocumentDbClient;
 import alexander.paulsell.documentdata.data.entities.Document;
-import alexander.paulsell.documentdata.data.entities.Section;
+import alexander.paulsell.documentdata.data.entities.Snippet;
+import alexander.paulsell.documentdata.data.entities.Document.Section;
 import alexander.paulsell.documentdata.data.entities.Text;
 
 @SpringBootApplication
@@ -28,18 +36,33 @@ public class DocumentdataApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		documentDbClient.deleteAll();
-		documentDbClient.save(readDocument("Document Title", new File[] {new ClassPathResource("static//DocumentTitle//Testph.txt").getFile()}));
-	}
-
-	public Document readDocument(String title, File[] sectionFiles) {
-		Section[] sections = new Section[sectionFiles.length];
-		for (int i = 0; i < sectionFiles.length; i++){
-			sections[i] = readFileToSection(sectionFiles[i]);
+		try (Stream<Path> walk = Files.walk(new ClassPathResource("static").getFile().toPath(), 1)) {
+			List<Document> documents = walk.filter(Files::isDirectory).skip(1)
+				.map(DocumentdataApplication::pathToDocument)
+				.collect(Collectors.toList());
+				
+			for (Document document: documents) {
+				documentDbClient.save(document);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return new Document(title, sections);
 	}
 
-    private static Section readFileToSection(File file) {
+	public static Document pathToDocument(Path path) {
+		try (Stream<Path> walk = Files.walk(path, 1)) {
+			List<Section> sections = walk.filter(Files::isRegularFile)
+				.map( v -> {return fileToSection(v);})
+				.collect(Collectors.toList());
+			return new Document(path.toFile().getName(), sections.toArray(new Section[] {}));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+    private static Section fileToSection(Path path) {
+		File file = path.toFile();
         FileInputStream fis = null;
         byte[] bArray = new byte[(int) file.length()];
         try {
@@ -48,8 +71,14 @@ public class DocumentdataApplication implements CommandLineRunner {
             fis.close();
         } catch (IOException ioExp) {
             ioExp.printStackTrace();
-        }
-        return new Text(new String(bArray));
+		}
+		Section result = null;
+		if (path.toString().endsWith(".snip")) {
+			result = new Snippet(new String(bArray));
+		} else {
+			result = new Text(new String(bArray));
+		}
+        return result;
     }
 
 }

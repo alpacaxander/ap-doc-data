@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import alexander.paulsell.documentdata.business.Manager;
@@ -31,7 +32,7 @@ public class DocumentController {
     
     @CrossOrigin
     @GetMapping("/get")
-	public Document getDocument(String title) {
+	public Document getDocument(@RequestParam String title) {
 		return manager.getDocument(title);
     }
     

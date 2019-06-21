@@ -4,31 +4,26 @@ import org.springframework.data.annotation.Id;
 
 import alexander.paulsell.documentdata.data.entities.Document.Section;
 
-public class Text extends Section {
+public class Image extends Section {
 
-    private String type;
-    private String data;
+    private String type = "image";
+    private byte[] data;
 
-    public Text() {}
+    public Image() {}
 
-    public Text(String text) {
-        this.type = "text";
-        this.data = text;
+    public Image(byte[] data) {
+        this.data = data;
     }
 
-    public String getData() {
+    public byte[] getData() {
         return data;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public boolean equals(Object obj) {
         if (this.getClass().equals(obj.getClass())) {
             return false;
         }
-        return getData().equals(((Text) obj).getData());
+        return getData().equals(((Image) obj).getData());
     }
 
     @Override

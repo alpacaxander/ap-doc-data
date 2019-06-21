@@ -1,18 +1,16 @@
 package alexander.paulsell.documentdata.data.entities;
 
-import org.springframework.data.annotation.Id;
-
 import alexander.paulsell.documentdata.data.entities.Document.Section;
 
-public class Text extends Section {
+public class Snippet extends Section {
 
     private String type;
     private String data;
 
-    public Text() {}
+    public Snippet() {}
 
-    public Text(String text) {
-        this.type = "text";
+    public Snippet(String text) {
+        this.type = "snippet";
         this.data = text;
     }
 

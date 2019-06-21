@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import alexander.paulsell.documentdata.api.DocumentController;
 import alexander.paulsell.documentdata.data.DocumentDbClient;
 import alexander.paulsell.documentdata.data.entities.Document;
-import alexander.paulsell.documentdata.data.entities.Section;
+import alexander.paulsell.documentdata.data.entities.Document.Section;
 import alexander.paulsell.documentdata.data.entities.Text;
 
 

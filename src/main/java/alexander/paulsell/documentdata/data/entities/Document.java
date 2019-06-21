@@ -46,4 +46,5 @@ public class Document {
                 title, sectionString);
     }
 
+    public static abstract class Section {}
 }
