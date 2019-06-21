@@ -14,10 +14,6 @@
 	<name>documentdata</name>
 	<description>Document data for personal project</description>
 
-	<properties>
-		<java.version>12</java.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
