@@ -36,6 +36,7 @@ public class DocumentdataApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println(new ClassPathResource("static").getFile().toPath());
+		documentDbClient.save(new Document("title", new Section[] {new Text("text")}));
 		return;/*
 		try (Stream<Path> walk = Files.walk(new ClassPathResource("static").getFile().toPath(), 1)) {
 			List<Document> documents = walk.filter(Files::isDirectory).skip(1)
